@@ -6,6 +6,8 @@ echo "The Node name is: ${env.NODE_NAME}"
 echo "The Job name is:  ${env.JOB_NAME}"
 echo "The Job number is: ${env.BUILD_NUMBER}"
 
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '4', daysToKeepStr: '', numToKeepStr: '5'))])
+
 //Checkout stage
 stage('checkoutcode'){
    git branch: 'development', credentialsId: '0b0bee3a-40a0-4a5f-b8ef-4e56cf265ae0', url: 'https://github.com/Devops-Software-Club/maven-web-application.git'
