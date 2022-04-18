@@ -1,0 +1,30 @@
+node{
+    
+def mvnHome = tool name: "maven3.8.5"
+
+//Checkout stage
+stage('checkoutcode'){
+   git branch: 'development', credentialsId: '0b0bee3a-40a0-4a5f-b8ef-4e56cf265ae0', url: 'https://github.com/Devops-Software-Club/maven-web-application.git'
+}
+
+//Build stage
+stage('Build'){
+sh "$mvnHome/bin/mvn clean package"
+}
+
+//sonarqube report generation
+stage('sonarqubereport'){
+sh "$mvnHome/bin/mvn sonar:sonar"
+}
+
+stage('uploadartifacts'){
+sh "$mvnHome/bin/mvn deploy"
+}
+
+//deploy app into tomcat
+stage('deployment app into tomcat'){
+sshagent(['63b5c7ef-0c69-4278-95ba-678f31ed02bc']) {
+  sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@65.0.85.223:/opt/apache-tomcat-9.0.60/webapps"
+}
+}
+}//node closing
