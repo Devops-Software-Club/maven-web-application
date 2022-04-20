@@ -1,6 +1,5 @@
 node{
     
-buildName'Dev-${BUILD_NUMBER}'
 BUILDDESCRIPTION 'Pipeline Script-scriptedway'
 def mvnHome = tool name: "maven3.8.5"
 
